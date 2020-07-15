@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
-import { UserDTO } from './tdo/user.dto';
 
 @Controller('users')
 export class UserController {
@@ -19,19 +18,19 @@ export class UserController {
   // si lo haces con param retorna un objeto con una propiedad id y el dato lo tiene con string
   //usar el parseintpipe para obtener la propiedad id de params como entero
   @Get(':id')
-  async getUser(@Param('id', ParseIntPipe) id: number): Promise<UserDTO> {
+  async getUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
     const user = await this._userService.get(id);
     return user;
   }
 
   @Get()
-  async getUsers(): Promise<UserDTO[]> {
+  async getUsers(): Promise<User[]> {
     const users = await this._userService.getAll();
     return users;
   }
 
   @Post('create')
-  async createUser(@Body() user: User): Promise<UserDTO> {
+  async createUser(@Body() user: User): Promise<User> {
     const createdUser = await this._userService.create(user);
     return createdUser;
   }
