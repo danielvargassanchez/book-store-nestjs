@@ -14,6 +14,7 @@ import { User } from './user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from '../role/decorators/role.decorator';
 import { RoleGuard } from '../role/guards/role.guard';
+import { RoleType } from '../role/roletype.enum';
 
 @Controller('users')
 export class UserController {
@@ -22,7 +23,7 @@ export class UserController {
   // si lo haces con param retorna un objeto con una propiedad id y el dato lo tiene con string
   //usar el parseintpipe para obtener la propiedad id de params como entero
   @Get(':id')
-  @Roles('ADMINistrator', 'AUTHORasd')
+  @Roles(RoleType.ADMIN, RoleType.AUTHOR)
   @UseGuards(AuthGuard(), RoleGuard)
   async getUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
     const user = await this._userService.get(id);
